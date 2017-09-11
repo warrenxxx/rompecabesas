@@ -3,6 +3,7 @@ package animacion2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
@@ -10,20 +11,34 @@ import javafx.animation.KeyValue;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import rompecabesas.nodo;
 import rompecabesas.tu_asterisco;
 
@@ -58,16 +73,11 @@ public class PuzzlePiecesApp extends Application {
         shuffleButton.setOnAction((ActionEvent actionEvent) -> {
             SequentialTransition sequence = new SequentialTransition();
             ArrayList<Integer> aux = new ArrayList();
-            //for (int i = 0; i < numOfColumns * numOfRows; i++) {
-              //  aux.add(i);
-            //}
-            //Collections.shuffle(aux);
-            aux.add(1);
-            aux.add(0);
-            aux.add(4);
-            aux.add(3);
-            aux.add(5);
-            aux.add(2);
+            for (int i = 0; i < numOfColumns * numOfRows; i++) {
+                aux.add(i);
+            }
+            Collections.shuffle(aux);
+
             ini = aux;
             sequence.getChildren().add(movimiento(ini));
             sequence.play();
@@ -106,6 +116,7 @@ public class PuzzlePiecesApp extends Application {
             seq.play();
             seq.setOnFinished(e -> {
                 pieces.get(0).setVisible(true);
+                informacion(asterisco.por_procesar.size(), asterisco.nodosprocesados, asterisco.hu1, asterisco.hu2);
             });
         });
         Label t = new Label();
@@ -173,6 +184,44 @@ public class PuzzlePiecesApp extends Application {
         }
 //            timel.playFromStart();
         return timel;
+    }
+
+    public void informacion(int a,int b,String c,String d) {
+
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Informacion");
+        dialog.setHeaderText("Informacion Obtenida");
+        dialog.setGraphic(new ImageView(this.getClass().getResource("../recursos/logo3.png").toString()));
+        dialog.setX(0);
+        ButtonType loginButtonType = new ButtonType("oks", ButtonData.OK_DONE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType);
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+        TextArea t1=new TextArea(c);
+        t1.setPrefWidth(60);
+        t1.setPrefHeight(40);
+        TextArea t2=new TextArea(d);
+        t2.setPrefWidth(60);
+        t2.setPrefHeight(40);
+        grid.add(new Label("Nodos Acumulados en la cola:"), 0, 0);
+        grid.add(new TextField(a+""), 1, 0);
+
+        grid.add(new Label("Nodos Procesados:"), 0, 1);
+        grid.add(new TextField(b+""), 1, 1);
+
+        grid.add(new Label("Heuristicas Obtenidas:"), 0, 2);
+        grid.add(t1, 1, 2);
+
+        grid.add(new Label("Heuristicas acumuladas:"), 0, 3);
+        grid.add(t2, 1, 3);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.show();
+
     }
 
     public static void main(String[] args) {

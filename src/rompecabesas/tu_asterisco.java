@@ -14,11 +14,15 @@ public class tu_asterisco {
     
     public HashMap<String,nodo>por_procesar;
     public nodo ini,fin;
+    public  int nodosprocesados;
+    public String hu1="";
+    public String hu2="";
     private final int ax[]={0,1,0,-1};
     private final int ay[]={1,0,-1,0};
     public tu_asterisco(nodo ini) {
         this.por_procesar = new HashMap();
         this.ini=ini;
+        nodosprocesados=0;
     }
 
     public boolean resolver() throws InterruptedException{
@@ -30,6 +34,7 @@ public class tu_asterisco {
 //            System.out.println(res+" "+nodoa.costo+" "+nodob.costo);
             return res;
         });
+        nodosprocesados=0;
         int k=0;
 //        Queue <nodo>q=new Queue<nodo>();
         por_procesar.put(ini.StringParaUbicar(), ini);
@@ -48,6 +53,7 @@ public class tu_asterisco {
             
             if(a.visitado==true)continue;
             a.visitado=true;
+            nodosprocesados++;
             k++;
             System.out.print(a.StringParaUbicar()+" ");
             if(a.papito!=null)
@@ -83,13 +89,22 @@ public class tu_asterisco {
         return false;
     }
     public ArrayList<nodo> getMov(){
+        hu1="";
+        hu2="";
         ArrayList l=new ArrayList();
         if(fin==null)
             return new ArrayList();
         while(fin.papito!=null){
             l.add(fin);
+            hu1=fin.heuristica()+","+hu1;
+            hu2=fin.costo+","+hu2;
+
             fin=fin.papito;
+     
         }
+                    hu1=fin.heuristica()+","+hu1;
+            hu2=fin.costo+","+hu2;
+
         l.add(fin);
         return l;
     }
