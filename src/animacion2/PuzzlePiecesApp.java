@@ -53,7 +53,7 @@ public class PuzzlePiecesApp extends Application {
 
     public Parent createContent() {
         mensaje = new SimpleStringProperty();
-        Image image = new Image(PuzzlePiecesApp.class.getResourceAsStream("/recursos/a1.jpg"));
+        Image image = new Image(PuzzlePiecesApp.class.getResourceAsStream("/recursos/a3.jpg"));
         int numOfColumns = (int) (image.getWidth() / Piece.SIZE);
         int numOfRows = (int) (image.getHeight() / Piece.SIZE);
         final Desk desk = new Desk(numOfColumns, numOfRows);
@@ -73,12 +73,14 @@ public class PuzzlePiecesApp extends Application {
         shuffleButton.setOnAction((ActionEvent actionEvent) -> {
             SequentialTransition sequence = new SequentialTransition();
             ArrayList<Integer> aux = new ArrayList();
-            for (int i = 0; i < numOfColumns * numOfRows; i++) {
+/*            for (int i = 0; i < numOfColumns * numOfRows; i++) {
                 aux.add(i);
             }
             Collections.shuffle(aux);
-
-            ini = aux;
+*/
+            aleatorios tmp=new aleatorios();
+            
+            ini = tmp.getMapa(0);
             sequence.getChildren().add(movimiento(ini));
             sequence.play();
             sequence.setOnFinished(e -> {
