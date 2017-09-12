@@ -45,6 +45,7 @@ import rompecabesas.tu_asterisco;
 public class PuzzlePiecesApp extends Application {
 
     private SimpleStringProperty mensaje;
+    
     final List<Piece> pieces = new ArrayList<Piece>();
     private Timeline timeline;
     private ArrayList<Integer> movimientos[];
@@ -53,10 +54,13 @@ public class PuzzlePiecesApp extends Application {
 
     public Parent createContent() {
         mensaje = new SimpleStringProperty();
-        Image image = new Image(PuzzlePiecesApp.class.getResourceAsStream("/recursos/a3.jpg"));
+  
+        Image image = new Image(PuzzlePiecesApp.class.getResourceAsStream("/recursos/logo2.jpg"));
         int numOfColumns = (int) (image.getWidth() / Piece.SIZE);
         int numOfRows = (int) (image.getHeight() / Piece.SIZE);
+        
         final Desk desk = new Desk(numOfColumns, numOfRows);
+        
         int k = 0;
         for (int row = 0; row < numOfRows; row++) {
             for (int col = 0; col < numOfColumns; col++) {

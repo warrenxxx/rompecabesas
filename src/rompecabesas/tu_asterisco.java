@@ -13,12 +13,17 @@ import java.util.PriorityQueue;
 public class tu_asterisco {
     
     public HashMap<String,nodo>por_procesar;
+    
     public nodo ini,fin;
+    
     public  int nodosprocesados;
+    
     public String hu1="";
     public String hu2="";
+
     private final int ax[]={0,1,0,-1};
     private final int ay[]={1,0,-1,0};
+
     public tu_asterisco(nodo ini) {
         this.por_procesar = new HashMap();
         this.ini=ini;
@@ -36,7 +41,7 @@ public class tu_asterisco {
         });
         nodosprocesados=0;
         int k=0;
-//        Queue <nodo>q=new Queue<nodo>();
+        
         por_procesar.put(ini.StringParaUbicar(), ini);
         ini.costo=ini.heuristica();
         q.add(ini);
@@ -47,7 +52,6 @@ public class tu_asterisco {
             if(a.verifiacr()){
                 System.out.println("llego");
                 fin=a;
-                System.out.println(por_procesar.size()+" hh");
                 return true;                                
             }
             
@@ -55,10 +59,7 @@ public class tu_asterisco {
             a.visitado=true;
             nodosprocesados++;
             k++;
-            System.out.print(a.StringParaUbicar()+" ");
-            if(a.papito!=null)
-                System.out.print(a.papito.StringParaUbicar()+" ");
-            System.out.println(a.costo+" "+a.heur);
+           
             for(int i=0;i<4;i++){
                 int xx=a.posi+ax[i];
                 int yy=a.posj+ay[i];

@@ -11,6 +11,7 @@ import java.util.Collections;
 public class nodo {
 
     public int a[][];
+    
     public int costo;
     public boolean visitado;
     public int posi,posj;    
@@ -22,7 +23,7 @@ public class nodo {
         visitado=false;
         this.n = i;
         this.m = j;
-        costo=500;
+        costo=9999999;
         papito=null;
     }
     public void swap(int ii,int jj){
@@ -32,7 +33,7 @@ public class nodo {
        posi=ii;
        posj=jj;
     }
-    public int[][] getMtaris(){
+    public int[][] getMatris(){
         int [][]k=new int[n][m];
         for(int i=0;i<n;i++)
             for(int j=0;j<m;j++)
@@ -52,28 +53,14 @@ public class nodo {
         }
     }
     
-    public void make_random() {
-        ArrayList<Integer> l=new ArrayList();
-        for(int i=0;i<n*m;i++)
-            l.add(i);
-        Collections.shuffle(l);        
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                 a[i][j] = l.get(i*m+j);
-                if(a[i][j]==0){
-                    this.posi=i;
-                    this.posj=j;
-                }
-            }
-        }
-    }
+
     public nodo clone(){
         nodo b=new nodo(n,m);
         b.costo=costo;
         b.visitado=visitado;
         b.posi=posi;
         b.posj=posj;
-        b.a=getMtaris();
+        b.a=getMatris();
         return b;
     }
     public ArrayList<Integer> getMovimiento(){
