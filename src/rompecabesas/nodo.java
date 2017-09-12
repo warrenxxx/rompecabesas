@@ -10,22 +10,26 @@ import java.util.Collections;
  */
 public class nodo {
 
-    public int a[][];
+    public int a[][];//matris en el que almacena el puzzle
     
-    public int costo;
-    public boolean visitado;
-    public int posi,posj;    
-    public int n, m;    
-    public nodo papito;
-    public int heur;
-    public nodo(int i, int j) {
-        a = new int[i][j];
+    public int costo;//el costo del nodo
+    public boolean visitado;// booleando que verifica si esta visitado o no    
+    public int posi,posj;//posiciones x e y de la piesa que se encuentra vacia    
+    public int n, m;// tamaño del puzzle n x m    
+    public nodo papito;//padre del nodo actual (el padre es la jugada anterior)
+    public int heur;//heuristica hallada 
+    
+    //iniciando contructor 
+    public nodo(int n, int m) {//requiere de los tamaños del puzzle
+        a = new int[n][m];
         visitado=false;
-        this.n = i;
-        this.m = j;
-        costo=9999999;
-        papito=null;
+        this.n = n;
+        this.m = m;
+        costo=9999999;//al inicio el costo es el mas alto        
+        papito=null;//al inicio el padre es null
     }
+
+    //modulo pora cambiar las pociciones de la ficahs
     public void swap(int ii,int jj){
        int k=a[ii][jj];
        a[ii][jj]=a[posi][posj];
@@ -33,6 +37,8 @@ public class nodo {
        posi=ii;
        posj=jj;
     }
+    
+    //modulo para clonar la matris
     public int[][] getMatris(){
         int [][]k=new int[n][m];
         for(int i=0;i<n;i++)
@@ -40,6 +46,8 @@ public class nodo {
                 k[i][j]=this.a[i][j];
         return k;
     }    
+    
+    //modulo para rellenar la matris del puzzle basado en un arreglo
     public void setmatris(ArrayList<Integer> l) {
         int k=0;
         for(int i=0;i<n;i++){
@@ -53,7 +61,7 @@ public class nodo {
         }
     }
     
-
+    //modulo para clonar el nodo
     public nodo clone(){
         nodo b=new nodo(n,m);
         b.costo=costo;
@@ -63,6 +71,12 @@ public class nodo {
         b.a=getMatris();
         return b;
     }
+    
+    //obtiene una lista con el estado de la matris
+    //ejemplo
+    //[5,6,3]
+    //[0,1,2]
+    //=5,6,3,0,1,2
     public ArrayList<Integer> getMovimiento(){
         ArrayList<Integer> res=new ArrayList();
         for(int i=0;i<n;i++)
@@ -70,6 +84,8 @@ public class nodo {
                 res.add(a[i][j]);
         return res;
     }
+    
+    //heuristica de casillas fuera de lugar
     public int h1() {
         int k=0;
         for (int i = 0; i < n; i++) 
@@ -79,6 +95,8 @@ public class nodo {
             }        
         return k;
     }
+    
+    //heuristica de distancias de manjatan
     public int h2(){
         int k=0;
         for (int i = 0; i < n; i++) 
@@ -88,10 +106,16 @@ public class nodo {
             }        
         return k;    
     }
+    
+    //suma de las heuristicas
     public int heuristica(){
         heur=h1()+h2();
         return heur;
     }
+    
+    //modulo para verificar si el puzzle llego al estado inicial 
+    //0 1 2
+    //3 4 5
     public boolean verifiacr(){
         int k=0;
         for(int i=0;i<n;i++){
@@ -102,6 +126,9 @@ public class nodo {
         }
         return true;
     }
+    
+    //String que contine el puzzle 
+    // se usa para ubicar un puzzle segun su codigo hash en base a ese string
     public String StringParaUbicar(){
         String h="";
         for(int i=0;i<n;i++){
